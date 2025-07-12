@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/ui/extension/time_extension.dart';
 import 'package:todo_app/ui/utils/app_colors.dart';
 import 'package:todo_app/ui/utils/app_styles.dart';
+import 'package:todo_app/ui/widgets/todo_widget/todo_widget.dart';
 
 class ListTab extends StatefulWidget {
   const ListTab({super.key});
@@ -16,16 +17,25 @@ class _ListTabState extends State<ListTab> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         buildCalender(),
-        Spacer(flex: 55,)
+        Spacer(flex: 20,),
+        Expanded(flex: 80,
+          child: ListView.builder(
+            itemCount: 30,
+            itemBuilder: (context, index) {
+              return TodoWidget();
+            },),
+        )
+
       ],
     );
   }
 
   buildCalender() {
     return Expanded(
-      flex: 45,
+      flex: 75,
       child: Stack(
         children: [
           Column(

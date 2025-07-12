@@ -24,7 +24,10 @@ class _HomeState extends State<Home> {
       backgroundColor: AppColors.bgColor,
       appBar: AppBar(
         backgroundColor: AppColors.primary,
-        title: Text("To Do List", style: AppStyle.appBarTextStyle),
+        title: Padding(
+          padding: const EdgeInsets.only(top: 30,left: 60),
+          child: Text("To Do List", style: AppStyle.appBarTextStyle),
+        ),
       ),
       body: tabs[currentIndex],
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

@@ -42,7 +42,7 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
            SizedBox(height: 10,),
            TextField(
             decoration: InputDecoration(
-              hintText: "Enter task title",
+              hintText: "Enter task description",
               hintStyle: AppStyle.bottomSheetTitle.copyWith(fontSize: 16,color: AppColors.grey),
             ),
           ),
