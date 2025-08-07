@@ -1,6 +1,8 @@
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_app/ui/extension/time_extension.dart';
+import 'package:todo_app/ui/providers/list_provider.dart';
 import 'package:todo_app/ui/utils/app_colors.dart';
 import 'package:todo_app/ui/utils/app_styles.dart';
 import 'package:todo_app/ui/widgets/todo_widget/todo_widget.dart';
@@ -13,26 +15,35 @@ class ListTab extends StatefulWidget {
 }
 
 class _ListTabState extends State<ListTab> {
-  DateTime selectedCalenderTime = DateTime.now();
+  late ListProvider listProvider;
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp){
+      ///this block is called after build and called only once time
+      listProvider.getTodoListFromFireStore();
+    });
+
+  }
   @override
   Widget build(BuildContext context) {
+    listProvider = Provider.of(context);
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         buildCalender(),
-        Spacer(flex: 20,),
-        Expanded(flex: 80,
+        Expanded(flex: 85,
           child: ListView.builder(
-            itemCount: 30,
+            itemCount: listProvider.todosList.length,
             itemBuilder: (context, index) {
-              return TodoWidget();
+              return TodoWidget(item: listProvider.todosList[index],);
             },),
-        )
-
+        ),
       ],
     );
   }
-
   buildCalender() {
     return Expanded(
       flex: 75,
@@ -45,7 +56,7 @@ class _ListTabState extends State<ListTab> {
             ],
           ),
           EasyDateTimeLinePicker.itemBuilder(
-            focusedDate: selectedCalenderTime,
+            focusedDate: listProvider.selectedCalenderTime,
             firstDate: DateTime.now().subtract(Duration(days: 365)),
             lastDate: DateTime.now().add(Duration(days: 365)),
             itemExtent: 70,
@@ -54,7 +65,8 @@ class _ListTabState extends State<ListTab> {
                 return InkWell(
                   onTap: (){
                     setState(() {
-                      selectedCalenderTime = date;
+                      listProvider.selectedCalenderTime = date;
+                      listProvider.getTodoListFromFireStore();
                     });
                   },
                   child: Container(
@@ -87,4 +99,6 @@ class _ListTabState extends State<ListTab> {
     );
   }
    onTappedCalender(){}
+
+
 }

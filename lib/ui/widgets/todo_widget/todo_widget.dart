@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/ui/utils/app_styles.dart';
+import '../../model/todo_dm/todo_model.dart';
 import '../../utils/app_colors.dart';
 
 class TodoWidget extends StatelessWidget {
-  const TodoWidget({super.key});
+  final TodoModel item;
+  const TodoWidget({super.key,required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -19,18 +21,21 @@ class TodoWidget extends StatelessWidget {
           Container(
             width: 4,
             height: 62,
-            color: AppColors.primary,
+            decoration: BoxDecoration(
+              color: AppColors.primary,
+              borderRadius: BorderRadius.circular(10),
             ),
-          SizedBox(width: 24,),
+            ),
+          SizedBox(width: 25,),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Play Basketball ",style: AppStyle.listTextStyle,
+                Text(item.title,style: AppStyle.listTextStyle,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,),
                 SizedBox(height: 8,),
-                Text("Description ",style: AppStyle.listDateTextStyle,),
+                Text(item.description,style: AppStyle.listDateTextStyle,),
               ],
             ),
           ),

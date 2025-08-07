@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_app/ui/providers/list_provider.dart';
 import 'package:todo_app/ui/screens/tabs/list_tab.dart';
 import 'package:todo_app/ui/screens/tabs/settings_tab.dart';
 import 'package:todo_app/ui/utils/app_colors.dart';
@@ -17,9 +19,11 @@ class _HomeState extends State<Home> {
   DateTime selectedTime = DateTime.now();
   int currentIndex = 0;
   List<Widget> tabs = [ListTab(), SettingsTab()];
+  late ListProvider listProvider;
 
   @override
   Widget build(BuildContext context) {
+    listProvider = Provider.of(context);
     return Scaffold(
       backgroundColor: AppColors.bgColor,
       appBar: AppBar(

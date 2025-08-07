@@ -1,9 +1,29 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_app/ui/providers/list_provider.dart';
 import 'package:todo_app/ui/screens/home/home.dart';
+import 'package:todo_app/ui/screens/login/login.dart';
+import 'package:todo_app/ui/screens/register/register.dart';
+import 'package:todo_app/ui/screens/splash/splash.dart';
 import 'package:todo_app/ui/utils/app_theme.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: FirebaseOptions(
+        apiKey: "AIzaSyCujE8vTH6oGe-2Sa-MdXpbHgjmG3F1GcI",
+        appId: "1:953563613665:android:7d66cb67ccd935bf982aa0",
+        messagingSenderId: "todo-app-fe8b8",
+        projectId: "todo-app-fe8b8"),
+  );
+  await FirebaseFirestore.instance.disableNetwork();
+  FirebaseFirestore.instance.settings =
+      Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
+  runApp(ChangeNotifierProvider(
+    create: (_) => ListProvider(),
+      child: const MyApp()));
 }
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -16,9 +36,12 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightMode,
       darkTheme: ThemeData.dark(),
       routes: {
-        Home.routeName :  (_) => Home()
+        Splash.routeName : (_) => Splash(),
+        Home.routeName :  (_) => Home(),
+        Login.routeName :  (_) => Home(),
+        Register.routeName :  (_) => Home()
       },
-      initialRoute: Home.routeName,
+      initialRoute: Login.routeName,
     );
   }
 }
