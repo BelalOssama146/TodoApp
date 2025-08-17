@@ -2,10 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_app/ui/auth/login/login.dart';
+import 'package:todo_app/ui/auth/register/register.dart';
 import 'package:todo_app/ui/providers/list_provider.dart';
 import 'package:todo_app/ui/screens/home/home.dart';
-import 'package:todo_app/ui/screens/login/login.dart';
-import 'package:todo_app/ui/screens/register/register.dart';
 import 'package:todo_app/ui/screens/splash/splash.dart';
 import 'package:todo_app/ui/utils/app_theme.dart';
 
@@ -18,7 +18,6 @@ void main() async{
         messagingSenderId: "todo-app-fe8b8",
         projectId: "todo-app-fe8b8"),
   );
-  await FirebaseFirestore.instance.disableNetwork();
   FirebaseFirestore.instance.settings =
       Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
   runApp(ChangeNotifierProvider(
@@ -38,8 +37,8 @@ class MyApp extends StatelessWidget {
       routes: {
         Splash.routeName : (_) => Splash(),
         Home.routeName :  (_) => Home(),
-        Login.routeName :  (_) => Home(),
-        Register.routeName :  (_) => Home()
+        Login.routeName: (_) => Login(),
+        Register.routeName: (_) => Register()
       },
       initialRoute: Login.routeName,
     );

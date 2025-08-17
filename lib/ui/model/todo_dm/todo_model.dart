@@ -1,7 +1,7 @@
  import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TodoModel {
-  static const String collectionName = "todo";
+  static const String collectionName = "todos";
   late String title;
   late String description;
   late String id;

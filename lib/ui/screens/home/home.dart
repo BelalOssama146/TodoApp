@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_app/ui/auth/login/login.dart';
+import 'package:todo_app/ui/model/app_user_dm/app_user.dart';
 import 'package:todo_app/ui/providers/list_provider.dart';
 import 'package:todo_app/ui/screens/tabs/list_tab.dart';
 import 'package:todo_app/ui/screens/tabs/settings_tab.dart';
 import 'package:todo_app/ui/utils/app_colors.dart';
 import 'package:todo_app/ui/widgets/add_bottom_sheet/add_bottom_sheet.dart';
+
 import '../../utils/app_styles.dart';
 
 class Home extends StatefulWidget {
@@ -30,8 +33,17 @@ class _HomeState extends State<Home> {
         backgroundColor: AppColors.primary,
         title: Padding(
           padding: const EdgeInsets.only(top: 30,left: 60),
-          child: Text("To Do List", style: AppStyle.appBarTextStyle),
+          child: Text("Welcome back ${AppUser.currentUser!.userName}",
+              style: AppStyle.appBarTextStyle),
         ),
+        actions: [
+          InkWell(
+              onTap: () {
+                listProvider.reset();
+                Navigator.pushReplacementNamed(context, Login.routeName);
+              },
+              child: Icon(Icons.logout_outlined, size: 40,))
+        ],
       ),
       body: tabs[currentIndex],
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

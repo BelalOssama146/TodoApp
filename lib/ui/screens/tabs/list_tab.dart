@@ -34,7 +34,8 @@ class _ListTabState extends State<ListTab> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         buildCalender(),
-        Expanded(flex: 85,
+        Expanded(
+          flex: 60,
           child: ListView.builder(
             itemCount: listProvider.todosList.length,
             itemBuilder: (context, index) {
@@ -45,9 +46,8 @@ class _ListTabState extends State<ListTab> {
     );
   }
   buildCalender() {
-    return Expanded(
-      flex: 75,
-      child: Stack(
+    return Expanded(lex: 40,
+      cchild: Stack(
         children: [
           Column(
             children: [

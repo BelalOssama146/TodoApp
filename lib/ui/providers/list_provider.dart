@@ -1,12 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
+import 'package:todo_app/ui/model/app_user_dm/app_user.dart';
+
 import '../model/todo_dm/todo_model.dart';
 
 class ListProvider extends ChangeNotifier {
   DateTime selectedCalenderTime = DateTime.now();
   List<TodoModel> todosList = [];
+
   void getTodoListFromFireStore() async {
-    CollectionReference todosCollection = FirebaseFirestore.instance.collection(TodoModel.collectionName);
+    CollectionReference todosCollection = FirebaseFirestore.instance.collection(
+        AppUser.collectionName).
+    doc(AppUser.currentUser!.id).collection(TodoModel.collectionName);
     QuerySnapshot querySnapshot = await todosCollection.get();
     List<QueryDocumentSnapshot> documents = querySnapshot.docs;
     todosList = documents.map((doc) {
@@ -16,12 +21,16 @@ class ListProvider extends ChangeNotifier {
     todosList = todosList.where((todo) =>
     todo.date.year == selectedCalenderTime.year &&
         todo.date.month == selectedCalenderTime.month &&
-        todo.date.day == selectedCalenderTime.day)
-        .toList();
+        todo.date.day == selectedCalenderTime.day).toList();
 
     todosList.sort((todo1,todo2){
        return todo1.date.compareTo(todo2.date);
     });
     notifyListeners();
+  }
+
+  void reset() {
+    todosList.clear();
+    selectedCalenderTime = DateTime.now();
   }
 }

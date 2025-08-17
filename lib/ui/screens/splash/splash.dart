@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/ui/screens/login/login.dart';
-import 'package:todo_app/ui/screens/register/register.dart';
+
+import '../../auth/register/register.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
