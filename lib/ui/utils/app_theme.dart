@@ -3,26 +3,77 @@ import 'package:todo_app/ui/utils/app_styles.dart';
 
 import 'app_colors.dart';
 
-abstract class AppTheme{
-
-  static ThemeData lightMode  = ThemeData(
+abstract class AppTheme {
+  static ThemeData lightMode = ThemeData(
+    primaryColor: AppColors.primary,
+    scaffoldBackgroundColor: AppColors.bgColor,
     appBarTheme: AppBarTheme(
-    backgroundColor: AppColors.primary,
-    elevation: 0,
-    centerTitle: false,
-    titleTextStyle:AppStyle.appBarTextStyle,
-  ),
-    bottomNavigationBarTheme: BottomNavigationBarThemeData(
       elevation: 0,
+      backgroundColor: AppColors.primary,
+      titleTextStyle: AppStyle.appBarTextStyle,
+    ),
+    textTheme: TextTheme(
+        displayMedium: AppStyle.appBarDarkTextStyle,
+        bodyMedium: AppStyle.listDarkTextStyle,
+        bodySmall: AppStyle.normalGreyTextStyle,
+        labelMedium: AppStyle.bottomSheetTitle,
+        displaySmall: AppStyle.selectedCalenderStyle,
+        titleSmall: AppStyle.unselectedCalenderStyle,
+        titleMedium: AppStyle.normalGreyTextStyle
+    ),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: AppColors.white,
-      selectedItemColor: AppColors.primary,
-      unselectedItemColor: AppColors.grey,
-      selectedIconTheme: IconThemeData(size: 33),
-      unselectedIconTheme: IconThemeData(size: 33),
-      showSelectedLabels: false,
-      showUnselectedLabels: false,
-    )
-  ) ;
+      elevation: 0,
+    ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+        elevation: 0,
+        backgroundColor: AppColors.primary,
+        foregroundColor: AppColors.white,
+        shape: StadiumBorder(side: BorderSide(
+            width: 5,
+            color: AppColors.white))
+    ),
+    bottomAppBarTheme: BottomAppBarTheme(
+        color: AppColors.white
+    ),
 
-
+  );
+  static ThemeData darkMode = ThemeData(
+    primaryColor: AppColors.primary,
+    scaffoldBackgroundColor: AppColors.bgDarkColor,
+    appBarTheme: AppBarTheme(
+      elevation: 0,
+      backgroundColor: AppColors.primary,
+      titleTextStyle: AppStyle.toDoStyle,
+    ),
+    textTheme: TextTheme(
+        displayMedium: AppStyle.appBarDarkTextStyle,
+        bodyMedium: AppStyle.listDarkTextStyle,
+        bodySmall: AppStyle.detailsTaskTextStyle,
+        labelMedium: AppStyle.bottomSheetDarkStyle,
+        displaySmall: AppStyle.dateDarkTextStyle,
+        titleSmall: AppStyle.dateDarkTextStyle
+    ),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      backgroundColor: AppColors.appBarTextDarkColor,
+      elevation: 0,
+    ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+        elevation: 0,
+        backgroundColor: AppColors.primary,
+        foregroundColor: AppColors.white,
+        shape: StadiumBorder(side: BorderSide(
+            width: 5,
+            color: AppColors.appBarTextDarkColor))
+    ),
+    bottomAppBarTheme: BottomAppBarTheme(
+        color: AppColors.appBarTextDarkColor
+    ),
+    dropdownMenuTheme: DropdownMenuThemeData(
+        inputDecorationTheme: InputDecorationTheme(
+            focusColor: AppColors.appBarTextDarkColor,
+            hoverColor: AppColors.white
+        )
+    ),
+  );
 }

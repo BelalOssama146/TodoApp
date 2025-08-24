@@ -1,13 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_app/ui/extension/build_context_extension.dart';
 import 'package:todo_app/ui/extension/time_extension.dart';
 import 'package:todo_app/ui/model/todo_dm/todo_model.dart';
 import 'package:todo_app/ui/providers/list_provider.dart';
-import 'package:todo_app/ui/utils/app_styles.dart';
+import 'package:todo_app/ui/providers/theme_provider.dart';
 
-import '../../model/app_user_dm/app_user.dart';
-import '../../utils/app_colors.dart';
 
 class AddBottomSheet extends StatefulWidget {
   const AddBottomSheet({super.key});
@@ -28,47 +27,67 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   late ListProvider listProvider;
+  late ThemeProvider themeProvider;
   @override
   Widget build(BuildContext context) {
     listProvider = Provider.of(context);
+    themeProvider = Provider.of(context);
     return Container(
-      color: AppColors.white,
+      color: themeProvider.easyDatePicker,
       height: MediaQuery.of(context).size.height *0.5,
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text("Add new task ",textAlign: TextAlign.center,style: AppStyle.bottomSheetTitle,),
+          Text(
+            context.locale.addNewTask, textAlign: TextAlign.center, style: Theme
+              .of(context)
+              .textTheme
+              .labelMedium,),
            SizedBox(height: 10,),
            TextField(
              controller: titleController,
             decoration: InputDecoration(
-              hintText: "Enter task title",
-              hintStyle: AppStyle.normalGreyTextStyle.copyWith(fontSize: 16),
+              hintText: context.locale.enterTaskTitle,
+              hintStyle: Theme
+                  .of(context)
+                  .textTheme
+                  .bodySmall,
             ),
           ),
            SizedBox(height: 10,),
            TextField(
              controller: descriptionController,
             decoration: InputDecoration(
-              hintText: "Enter task description",
-              hintStyle: AppStyle.normalGreyTextStyle.copyWith(fontSize: 16),
+              hintText: context.locale.enterTaskDescription,
+              hintStyle: Theme
+                  .of(context)
+                  .textTheme
+                  .bodySmall,
             ),
           ),
            SizedBox(height: 10,),
-          const Text("Select date",style: AppStyle.bottomSheetTitle,),
+          Text(context.locale.selectDate, style: Theme
+              .of(context)
+              .textTheme
+              .labelMedium,),
            SizedBox(height: 10,),
           InkWell(
               onTap: (){
                 showMyDatePicker();
               },
-              child: Text(selectedDate.formatterDate,textAlign: TextAlign.center,style: AppStyle.normalGreyTextStyle,)),
+              child: Text(
+                selectedDate.formatterDate, textAlign: TextAlign.center,
+                style: Theme
+                    .of(context)
+                    .textTheme
+                    .bodySmall,)),
           const Spacer(),
           ElevatedButton(style: ButtonStyle(backgroundColor: WidgetStateProperty.all(Colors.blue)),
               onPressed: (){
-            addTodoListFromFireStore();
+                addTodoListToFireStore();
               },
-              child: Text("Add",style: TextStyle(color: AppColors.white),))
+              child: Text(context.locale.add, style: themeProvider.date,)),
         ],
       ),
     );
@@ -83,10 +102,8 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
         setState(() {});
   }
 
-  void addTodoListFromFireStore() {
-    CollectionReference todosCollection = FirebaseFirestore.instance.collection(
-        AppUser.collectionName).
-    doc(AppUser.currentUser!.id).collection(TodoModel.collectionName);
+  void addTodoListToFireStore() async {
+    CollectionReference todosCollection = TodoModel.userTodosCollection;
     DocumentReference doc = todosCollection.doc();
     TodoModel todoModel = TodoModel(
         title: titleController.text,
@@ -94,7 +111,7 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
         id: doc.id,
         date: selectedDate,
         isDone: false);
-    doc.set(todoModel.toJson());
+    await doc.set(todoModel.toJson());
     listProvider.getTodoListFromFireStore();
         Navigator.pop(context);
 

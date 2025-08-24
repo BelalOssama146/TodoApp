@@ -1,13 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/ui/auth/login/login.dart';
 import 'package:todo_app/ui/auth/register/register.dart';
+import 'package:todo_app/ui/providers/language_provider.dart';
 import 'package:todo_app/ui/providers/list_provider.dart';
+import 'package:todo_app/ui/providers/theme_provider.dart';
 import 'package:todo_app/ui/screens/home/home.dart';
 import 'package:todo_app/ui/screens/splash/splash.dart';
+import 'package:todo_app/ui/screens/tabs/settings_tab.dart';
+import 'package:todo_app/ui/screens/task_edit/task_edit.dart';
 import 'package:todo_app/ui/utils/app_theme.dart';
+
+import 'l10n/app_localizations.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,26 +28,46 @@ void main() async{
   FirebaseFirestore.instance.settings =
       Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
   runApp(ChangeNotifierProvider(
-    create: (_) => ListProvider(),
-      child: const MyApp()));
+    create: (_) => ThemeProvider(),
+    child: ChangeNotifierProvider(
+        create: (_) => ListProvider(),
+        child: ChangeNotifierProvider(
+            create: (_) => LanguageProvider(),
+            child: const MyApp())),
+  ));
 }
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    LanguageProvider languageProvider = Provider.of(context);
+    ThemeProvider themeProvider = Provider.of(context);
     return MaterialApp(
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        Locale('en'),
+        Locale('ar'),
+      ],
+      locale: Locale(languageProvider.selectedLanguage),
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightMode,
-      darkTheme: ThemeData.dark(),
+      darkTheme: AppTheme.darkMode,
+      themeMode: themeProvider.currentTheme,
       routes: {
         Splash.routeName : (_) => Splash(),
         Home.routeName :  (_) => Home(),
         Login.routeName: (_) => Login(),
-        Register.routeName: (_) => Register()
+        Register.routeName: (_) => Register(),
+        TaskEdit.routeName: (_) => TaskEdit(),
+        SettingsTab.routeName: (_) => SettingsTab()
       },
-      initialRoute: Login.routeName,
+      initialRoute: Splash.routeName,
     );
   }
 }

@@ -1,11 +1,12 @@
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/ui/extension/time_extension.dart';
+import 'package:todo_app/ui/extension/build_context_extension.dart';
 import 'package:todo_app/ui/providers/list_provider.dart';
+import 'package:todo_app/ui/providers/theme_provider.dart';
 import 'package:todo_app/ui/utils/app_colors.dart';
-import 'package:todo_app/ui/utils/app_styles.dart';
 import 'package:todo_app/ui/widgets/todo_widget/todo_widget.dart';
+import 'package:intl/intl.dart';
 
 class ListTab extends StatefulWidget {
   const ListTab({super.key});
@@ -16,7 +17,8 @@ class ListTab extends StatefulWidget {
 
 class _ListTabState extends State<ListTab> {
   late ListProvider listProvider;
-@override
+  late ThemeProvider themeProvider;
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -29,7 +31,7 @@ class _ListTabState extends State<ListTab> {
   @override
   Widget build(BuildContext context) {
     listProvider = Provider.of(context);
-
+    themeProvider = Provider.of(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -39,20 +41,20 @@ class _ListTabState extends State<ListTab> {
           child: ListView.builder(
             itemCount: listProvider.todosList.length,
             itemBuilder: (context, index) {
-              return TodoWidget(item: listProvider.todosList[index],);
-            },),
+              return TodoWidget(task: listProvider.todosList[index]);
+            }},),
         ),
       ],
     );
   }
   buildCalender() {
-    return Expanded(lex: 40,
-      cchild: Stack(
+    return Expanded(flex: 40,
+      child: Stack(
         children: [
           Column(
             children: [
               Expanded(child: Container(color: AppColors.primary,)),
-              Expanded(child: Container(color: AppColors.bgColor,)),
+              Expanded(child: Container(color: themeProvider.bgListTab,)),
             ],
           ),
           EasyDateTimeLinePicker.itemBuilder(
@@ -71,21 +73,36 @@ class _ListTabState extends State<ListTab> {
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                      color: AppColors.white,
+                      color: themeProvider.easyDatePicker,
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Column(
                       children: [
                         Spacer(),
-                        Expanded(child: Text(date.dayName,
-                          style: isSelected
-                            ? AppStyle.selectedCalenderStyle
-                            : AppStyle.unselectedCalenderStyle,)),
+                        Expanded(
+                            child: Text(DateFormat.E(context.locale.localeName)
+                                .format(date),
+                              style: isSelected ?
+                              Theme
+                                  .of(context)
+                                  .textTheme
+                                  .displaySmall
+                                  : Theme
+                                  .of(context)
+                                  .textTheme
+                                  .titleSmall,
+                            )),
                         Spacer(),
                         Expanded(child: Text(date.day.toString(),
-                          style: isSelected
-                            ? AppStyle.selectedCalenderStyle
-                            : AppStyle.unselectedCalenderStyle)),
+                          style: isSelected ?
+                          Theme
+                              .of(context)
+                              .textTheme
+                              .displaySmall
+                              : Theme
+                              .of(context)
+                              .textTheme
+                              .titleSmall,)),
                         Spacer(),
                       ],
                     ),

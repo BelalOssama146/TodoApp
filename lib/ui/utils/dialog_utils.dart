@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/ui/extension/build_context_extension.dart';
 
 Future <void> showLoading(BuildContext context) {
   return showDialog(context: context,
@@ -7,7 +8,7 @@ Future <void> showLoading(BuildContext context) {
       return AlertDialog(
         content: Row(
           children: [
-            Text("Loading"),
+            Text(context.locale.loading),
             Spacer(),
             CircularProgressIndicator()
           ],
