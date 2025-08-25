@@ -18,6 +18,7 @@ class ListTab extends StatefulWidget {
 class _ListTabState extends State<ListTab> {
   late ListProvider listProvider;
   late ThemeProvider themeProvider;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -42,8 +43,9 @@ class _ListTabState extends State<ListTab> {
             itemCount: listProvider.todosList.length,
             itemBuilder: (context, index) {
               return TodoWidget(task: listProvider.todosList[index]);
-            }},),
-        ),
+            },
+          ),
+        )),
       ],
     );
   }

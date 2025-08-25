@@ -30,8 +30,8 @@ class _RegisterState extends State<Register> {
     return Scaffold(
         appBar: AppBar(
         title: Text(context.locale.register),
-        eelevation: 0,
-          centerTitle: true,
+        elevation: 0,
+        ccenterTitle: true,
         ),
         body: Column(
           children: [

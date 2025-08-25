@@ -33,9 +33,9 @@ abstract class AppTheme {
             width: 5,
             color: AppColors.white))
     ),
-    bottomAppBarTheme: BottomAppBarTheme(
-        color: AppColors.white
-    ),
+      bottomAppBarTheme: BottomAppBarThemeData(
+        color: AppColors.white,
+      )
 
   );
   static ThemeData darkMode = ThemeData(
@@ -66,7 +66,7 @@ abstract class AppTheme {
             width: 5,
             color: AppColors.appBarTextDarkColor))
     ),
-    bottomAppBarTheme: BottomAppBarTheme(
+    bottomAppBarTheme: BottomAppBarThemeData(
         color: AppColors.appBarTextDarkColor
     ),
     dropdownMenuTheme: DropdownMenuThemeData(

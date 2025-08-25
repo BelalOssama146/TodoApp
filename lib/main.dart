@@ -27,14 +27,15 @@ void main() async{
   );
   FirebaseFirestore.instance.settings =
       Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
-  runApp(ChangeNotifierProvider(
-    create: (_) => ThemeProvider(),
-    child: ChangeNotifierProvider(
-        create: (_) => ListProvider(),
-        child: ChangeNotifierProvider(
-            create: (_) => LanguageProvider(),
-            child: const MyApp())),
-  ));
+  runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) =>
+        ThemeProvider()
+          ..getTheme()),
+        ChangeNotifierProvider(create: (_) => ListProvider()),
+        ChangeNotifierProvider(create: (_) => LanguageProvider()),
+      ],
+      child: const MyApp()));
 }
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

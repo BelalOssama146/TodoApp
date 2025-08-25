@@ -14,7 +14,6 @@ class TodoWidget extends StatefulWidget {
   TodoModel task;
 
   TodoWidget({super.key, required this.task});
-
   @override
   State<TodoWidget> createState() => _TodoWidgetState();
 }

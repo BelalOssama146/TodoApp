@@ -46,6 +46,7 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
               .labelMedium,),
            SizedBox(height: 10,),
            TextField(
+             style: TextStyle(color: themeProvider.fieldText),
              controller: titleController,
             decoration: InputDecoration(
               hintText: context.locale.enterTaskTitle,
@@ -57,6 +58,7 @@ class _AddBottomSheetState extends State<AddBottomSheet> {
           ),
            SizedBox(height: 10,),
            TextField(
+             style: TextStyle(color: themeProvider.fieldText),
              controller: descriptionController,
             decoration: InputDecoration(
               hintText: context.locale.enterTaskDescription,

@@ -9,7 +9,6 @@ import '../../utils/app_styles.dart';
 
 class SettingsTab extends StatefulWidget {
   const SettingsTab({super.key});
-
   static String routeName = "setting";
 
   @override
@@ -17,8 +16,6 @@ class SettingsTab extends StatefulWidget {
 }
 
 class _SettingsTabState extends State<SettingsTab> {
-
-
   late LanguageProvider languageProvider;
   late ThemeProvider themeProvider;
   @override
@@ -27,7 +24,7 @@ class _SettingsTabState extends State<SettingsTab> {
     themeProvider = Provider.of(context);
     return Scaffold(
         appBar: AppBar(
-          toolbarHeight: 125,
+          toolbarHeight: 105,
           title: Padding(
             padding: const EdgeInsets.only(left: 52, bottom: 61),
             child: Text(context.locale.settings,),
@@ -90,7 +87,6 @@ class _SettingsTabState extends State<SettingsTab> {
           ),
         ),
       );
-
   Widget buildModeButton() =>
       Padding(
         padding: const EdgeInsets.only(left: 56, right: 37),
@@ -116,9 +112,9 @@ class _SettingsTabState extends State<SettingsTab> {
                     child: Text(
                       context.locale.dark, style: AppStyle.languageTextStyle,)),
               ],
-              onChanged: (ThemeMode? newValue) {
+              onChanged: (ThemeMode? newValue) async {
                 if (newValue != null) {
-                  themeProvider.newTheme = newValue; // بدل themeMode
+                  await themeProvider.newTheme(newValue); // بدل themeMode
                 }
               }
           ),

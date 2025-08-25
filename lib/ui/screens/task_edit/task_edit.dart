@@ -10,7 +10,6 @@ import '../../utils/app_colors.dart';
 
 class TaskEdit extends StatefulWidget {
   const TaskEdit({super.key});
-
   static const String routeName = "editTask";
 
   @override
@@ -25,7 +24,6 @@ class _TaskEditState extends State<TaskEdit> {
   late ListProvider listProvider;
   late ThemeProvider themeProvider;
   TodoModel? task;
-
   @override
   Widget build(BuildContext context) {
     themeProvider = Provider.of(context);
@@ -38,11 +36,16 @@ class _TaskEditState extends State<TaskEdit> {
     }
     var screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(title: Text(context.locale.todoList)),
+      appBar: AppBar(
+        title: Text(context.locale.todoList,),
+      ),
       body: Stack(
         children: [
           Container(
-            height: MediaQuery.of(context).size.height * 0.13,
+            height: MediaQuery
+                .of(context)
+                .size
+                .height * 0.13,
             color: AppColors.primary,
           ),
           Container(
@@ -50,8 +53,7 @@ class _TaskEditState extends State<TaskEdit> {
             width: screenSize.width * 0.87,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
-              color: themeProvider.easyDatePicker,
-            ),
+              color: themeProvider.easyDatePicker,),
             margin: EdgeInsets.all(30),
             child: Form(
               key: formkey,
@@ -59,10 +61,10 @@ class _TaskEditState extends State<TaskEdit> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 18),
-                    child: Text(
-                      context.locale.editTask,
-                      style: Theme.of(context).textTheme.labelMedium,
-                    ),
+                    child: Text(context.locale.editTask, style: Theme
+                        .of(context)
+                        .textTheme
+                        .labelMedium,),
                   ),
                   Spacer(),
                   Padding(
@@ -77,8 +79,11 @@ class _TaskEditState extends State<TaskEdit> {
                       },
                       controller: titleController,
                       decoration: InputDecoration(
-                        label: Text(titleController.text),
-                        labelStyle: Theme.of(context).textTheme.bodySmall,
+                          label: Text(titleController.text),
+                          labelStyle: Theme
+                              .of(context)
+                              .textTheme
+                              .bodySmall
                       ),
                     ),
                   ),
@@ -95,78 +100,74 @@ class _TaskEditState extends State<TaskEdit> {
                       },
                       controller: descriptionController,
                       decoration: InputDecoration(
-                        label: Text(descriptionController.text),
-                        labelStyle: Theme.of(context).textTheme.bodySmall,
+                          label: Text(descriptionController.text),
+                          labelStyle: Theme
+                              .of(context)
+                              .textTheme
+                              .bodySmall
+
                       ),
                     ),
                   ),
                   Spacer(),
                   Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Text(
-                        context.locale.selectTime,
-                        style: Theme.of(context).textTheme.labelMedium,
-                      ),
-                    ),
-                  ),
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Text(context.locale.selectTime, style: Theme
+                            .of(context)
+                            .textTheme
+                            .labelMedium,),
+                      )),
                   Spacer(),
                   InkWell(
-                    onTap: () {
-                      showMyDatePicker();
-                    },
-                    child: Text(
-                      selectedDate.formatterDate,
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                  ),
+                      onTap: () {
+                        showMyDatePicker();
+                      },
+                      child:
+                      Text(selectedDate.formatterDate, style: Theme
+                          .of(context)
+                          .textTheme
+                          .bodySmall)),
                   Spacer(),
                   Padding(
                     padding: const EdgeInsets.only(top: 15),
                     child: ElevatedButton(
-                      style: ButtonStyle(
-                        shape: WidgetStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
+                        style: ButtonStyle(
+                            shape: WidgetStateProperty.all(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30))),
+                            elevation: WidgetStatePropertyAll(0),
+                            padding: WidgetStatePropertyAll(
+                                EdgeInsets.symmetric(
+                                    vertical: 15, horizontal: 60)),
+                            backgroundColor: WidgetStatePropertyAll(
+                                AppColors.saveColor)
                         ),
-                        elevation: WidgetStatePropertyAll(0),
-                        padding: WidgetStatePropertyAll(
-                          EdgeInsets.symmetric(vertical: 15, horizontal: 60),
-                        ),
-                        backgroundColor: WidgetStatePropertyAll(
-                          AppColors.saveColor,
-                        ),
-                      ),
-                      onPressed: () async {
-                        editTask();
-                      },
-                      child: Text(
-                        context.locale.saveChanges,
-                        style: themeProvider.date,
-                      ),
+                        onPressed: () async {
+                          editTask();
+                        },
+                        child:
+                        Text(context.locale.saveChanges,
+                          style: themeProvider.date,)),
                     ),
-                  ),
-                  Spacer(flex: 6),
+                  Spacer(flex: 6,),
+
                 ],
               ),
             ),
-          ),
+          )
         ],
       ),
     );
   }
 
   void showMyDatePicker() async {
-    selectedDate =
-        await showDatePicker(
+    selectedDate = await showDatePicker(
           context: context,
           initialDate: selectedDate,
           firstDate: DateTime.now(),
-          lastDate: DateTime.now().add(Duration(days: 365)),
-        ) ??
-        selectedDate;
+        lastDate: DateTime.now().add(Duration(days: 365))) ?? selectedDate;
     setState(() {});
   }
 
@@ -180,4 +181,6 @@ class _TaskEditState extends State<TaskEdit> {
       Navigator.pop(context);
     }
   }
+
 }
+
